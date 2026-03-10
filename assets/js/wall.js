@@ -457,13 +457,9 @@ function updateMsgCount() {
 }
 
 // basic HTML escape to prevent XSS
-function escHtml(str) {
-  return str
-    .replace(/&/g,  '&amp;')
-    .replace(/</g,  '&lt;')
-    .replace(/>/g,  '&gt;')
-    .replace(/"/g,  '&quot;')
-    .replace(/'/g,  '&#039;');
+
+function goHome(){
+  window.location.href = "index.html";
 }
 
 
