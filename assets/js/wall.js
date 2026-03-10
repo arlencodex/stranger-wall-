@@ -464,7 +464,7 @@ function escHtml(str) {
             .replace(/>/g,'&gt;');
 }
 
-function goHome(){
+function Home(){
   window.location.href = "index.html";
 }
 
