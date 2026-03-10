@@ -120,13 +120,7 @@ function showScreen(id) {
 }
 
 function goHome() {
-  clearAllTimers();
-  isConnected = false;
-  currentStranger = null;
-  showScreen('screen-waiting');
-  startStateEl.style.display = '';
-  searchingEl.classList.remove('active');
-  skipOverlay.classList.remove('show');
+  window.location.href = "index.html";
 }
 
 
