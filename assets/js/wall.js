@@ -459,6 +459,16 @@ function updateMsgCount() {
 // basic HTML escape to prevent XSS
 
 function goHome(){
+  function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function goHome(){
+  window.location.href = "index.html";
+} 
+}
+
+function goHome(){
   window.location.href = "index.html";
 }
 
