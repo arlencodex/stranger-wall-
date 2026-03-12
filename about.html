@@ -1,592 +1,370 @@
-<section class="about-section">
-  <div class="container">
-    <!-- Single Hero Image -->
-    <div class="hero-image-wrapper">
-      <div class="hero-image">
-        <img 
-          src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-          alt="Diverse group of people connecting digitally"
-          loading="lazy"
-          class="hero-img"
-        >
-        <div class="hero-overlay"></div>
-      </div>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About · Stranger Wall</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #0c0d16;
+      --surface:   #13141f;
+      --surface2:  #1a1b2b;
+      --border:    #252638;
+      --gold:      #d4a96a;
+      --gold-soft: #e8c48e;
+      --gold-dim:  #8a6a3e;
+      --text:      #ece7da;
+      --content:   #c0bcd4;
+    }
 
-    <div class="about-content">
-      <!-- Badge with hover effect -->
-      <span class="badge" role="text" aria-label="Section indicator">About</span>
-      
-      <!-- Professional typography with proper hierarchy -->
-      <h1 class="title">
-        <span class="title-highlight">Stranger Wall</span>
-      </h1>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
-      <!-- Description content with your text - no feature grid, no content images -->
-      <div class="description">
-        <!-- Introduction paragraph -->
-        <p class="lead">
-          A digital space designed for authentic expression and anonymous connection.
-        </p>
+    body {
+      background: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-        <p>
-          Stranger Wall is a digital space designed for authentic expression and anonymous connection. 
-          In a world where social platforms revolve around profiles, followers, and identities, 
-          Stranger Wall offers something different — a place where conversations exist beyond names 
-          and personal labels.
-        </p>
+    /* noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        <p>
-          Here, people interact as pure voices rather than identities. Thoughts flow freely between 
-          strangers, creating meaningful interactions that are not influenced by status, appearance, 
-          or social pressure. Every message becomes part of a shared space where individuals can 
-          express themselves honestly.
-        </p>
+    /* ══ NAV ══ */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(12,13,22,0.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 3rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
 
-        <p>
-          The platform encourages users to share experiences, ideas, and emotions in a simple and 
-          open environment. Whether someone wants to talk, listen, reflect, or simply explore 
-          perspectives from around the world, Stranger Wall creates opportunities for genuine 
-          human connection.
-        </p>
+    .logo {
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.25rem;
+      color: var(--text); letter-spacing: -0.5px;
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
+    }
 
-        <p>
-          Through anonymous group chats and global conversations, people from different cultures, 
-          backgrounds, and perspectives can interact naturally. These interactions often lead to 
-          unexpected insights, laughter, support, and memorable moments between strangers.
-        </p>
+    .logo-dot {
+      width: 8px; height: 8px; background: var(--gold);
+      border-radius: 50%; animation: pulse 2.5s ease-in-out infinite;
+    }
 
-        <p>
-          Stranger Wall is built with the belief that anonymity can create honesty. When identities 
-          are removed, conversations become more sincere and unfiltered. This allows users to 
-          express thoughts that might otherwise remain hidden.
-        </p>
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:0.4; transform:scale(0.7); }
+    }
 
-        <p>
-          Our platform continues to evolve as we explore new technologies and design better digital 
-          experiences. Innovation and curiosity drive the development of Stranger Wall, helping us 
-          build tools that make anonymous interaction more engaging, safe, and enjoyable.
-        </p>
+    .nav-badge {
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--gold-dim);
+      background: rgba(212,169,106,0.1); border: 1px solid rgba(212,169,106,0.2);
+      padding: 2px 8px; border-radius: 100px;
+    }
 
-        <p>
-          Stranger Wall is not just a chat platform — it is a living wall of thoughts, ideas, and 
-          voices shared by strangers from around the world.
-        </p>
+    .nav-links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--content); text-decoration: none; font-size: 0.9rem;
+      font-weight: 400; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--gold); }
 
-        <!-- Vision Section -->
-        <h2 class="section-title">Our Vision</h2>
+    /* ══ HERO BANNER ══ */
+    .about-hero {
+      position: relative; z-index: 1;
+      height: 320px; overflow: hidden;
+    }
 
-        <p>
-          Our vision is to create a global digital space where people can communicate freely without 
-          identity barriers. We want to build a platform where honesty, curiosity, and human connection 
-          take priority over profiles and social status.
-        </p>
+    .about-hero img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.35) saturate(0.6);
+      transition: transform 8s ease;
+    }
 
-        <p>
-          Stranger Wall aims to redefine how people interact online by focusing on conversation rather 
-          than identity. By allowing people to speak openly and anonymously, we encourage deeper and 
-          more authentic exchanges between individuals across the world.
-        </p>
+    .about-hero:hover img { transform: scale(1.04); }
 
-        <p>
-          We believe that sometimes the most powerful conversations happen between strangers.
-        </p>
+    .about-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(12,13,22,0.2) 0%, rgba(12,13,22,0.95) 100%);
+    }
 
-        <!-- Mission Section -->
-        <h2 class="section-title">Our Mission</h2>
+    .about-hero-content {
+      position: absolute; bottom: 3rem; left: 0;
+      width: 100%;
+      padding: 0 3rem;
+      animation: fadeUp 0.7s ease 0.1s both;
+    }
 
-        <p>
-          Our mission is to build innovative digital environments that support anonymous interaction 
-          and authentic communication.
-        </p>
+    .about-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.75rem; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--gold); font-weight: 500; margin-bottom: 0.8rem;
+    }
 
-        <p>
-          We strive to continuously explore new technologies, improve user experiences, and develop 
-          creative solutions that make online interaction more open, simple, and meaningful.
-        </p>
+    .about-eyebrow::before {
+      content: ''; display: block; width: 20px; height: 1px; background: var(--gold);
+    }
 
-        <p>
-          Through Stranger Wall, we aim to create a platform where thoughts can travel freely, 
-          conversations can grow naturally, and strangers can connect in ways that feel genuine 
-          and memorable.
-        </p>
+    .about-hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 800; letter-spacing: -1.5px; line-height: 1.05;
+      color: var(--text);
+    }
 
-        <!-- Why Stranger Wall Exists Section -->
-        <h2 class="section-title">Why Stranger Wall Exists</h2>
+    .about-hero h1 em { font-style: normal; color: var(--gold); }
 
-        <p>
-          Modern social networks often focus heavily on identity, popularity, and digital reputation. 
-          While these platforms connect people, they can sometimes limit honest expression.
-        </p>
+    /* ══ MAIN CONTENT ══ */
+    .about-body {
+      position: relative; z-index: 1;
+      max-width: 860px; margin: 0 auto;
+      padding: 4rem 3rem 6rem;
+    }
 
-        <p>
-          Stranger Wall exists to offer a different experience — one where people are free to share 
-          their thoughts without judgment or expectations. By removing identity from the conversation, 
-          we create a space where users can speak openly and listen without assumptions.
-        </p>
+    /* lead paragraph */
+    .lead-block {
+      border-left: 3px solid var(--gold);
+      padding-left: 1.5rem;
+      margin-bottom: 3rem;
+      animation: fadeUp 0.6s ease 0.3s both, leadGlow 3s ease-in-out 1s infinite;
+    }
 
-        <p>
-          This environment encourages curiosity, empathy, and spontaneous interaction between people 
-          who might otherwise never cross paths.
-        </p>
+    @keyframes leadGlow {
+      0%,100% { border-left-color: var(--gold); box-shadow: -3px 0 0 0 rgba(212,169,106,0); }
+      50%      { border-left-color: var(--gold-soft); box-shadow: -3px 0 12px 2px rgba(212,169,106,0.25); }
+    }
 
-        <!-- Community Philosophy Section -->
-        <h2 class="section-title">Community Philosophy</h2>
+    .lead-block p {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem; font-weight: 500; line-height: 1.65;
+      color: var(--text); letter-spacing: -0.2px;
+    }
 
-        <p>
-          The Stranger Wall community is built around openness, respect, and curiosity. Even though 
-          users remain anonymous, the platform encourages meaningful conversations and positive 
-          interaction.
-        </p>
+    /* prose paragraphs */
+    .prose {
+      display: flex; flex-direction: column; gap: 1.4rem;
+      margin-bottom: 3.5rem;
+      animation: fadeUp 0.6s ease 0.4s both;
+    }
 
-        <p>
-          Every participant contributes to a constantly evolving stream of thoughts, stories, and 
-          perspectives. Each message becomes part of a shared digital wall where strangers connect 
-          through words.
-        </p>
+    .prose p {
+      font-size: 1rem; color: var(--content);
+      line-height: 1.85; font-weight: 300;
+    }
 
-        <p>
-          This creates a unique form of global communication — spontaneous, unpredictable, and often 
-          surprisingly human.
-        </p>
-      </div>
+    /* section heading */
+    .section-heading {
+      display: flex; align-items: center; gap: 14px;
+      margin: 3.5rem 0 1.6rem;
+      animation: fadeUp 0.5s ease both;
+    }
 
-      <!-- Interactive statistics -->
-      <div class="stats" role="region" aria-label="Platform statistics">
-        <div class="stat-item" tabindex="0" role="group" aria-label="Daily conversations statistic">
-          <span class="stat-number" aria-label="10 thousand plus">10K+</span>
-          <span class="stat-label">Daily Conversations</span>
-        </div>
-        <div class="stat-item" tabindex="0" role="group" aria-label="Countries reached statistic">
-          <span class="stat-number" aria-label="150 plus">150+</span>
-          <span class="stat-label">Countries</span>
-        </div>
-        <div class="stat-item" tabindex="0" role="group" aria-label="Shared moments statistic">
-          <span class="stat-number" aria-label="1 million plus">1M+</span>
-          <span class="stat-label">Shared Moments</span>
-        </div>
-      </div>
+    .section-heading::before {
+      content: ''; display: block;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gold); flex-shrink: 0;
+    }
+
+    .section-heading h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      letter-spacing: -0.5px; color: var(--text);
+    }
+
+    .section-heading::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* divider */
+    .divider {
+      height: 1px; background: var(--border);
+      margin: 3rem 0;
+    }
+
+
+    /* ══ PHILOSOPHY CARDS ══ */
+    .cards-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1rem; margin: 1.5rem 0;
+      animation: fadeUp 0.6s ease 0.5s both;
+    }
+
+    .phil-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 1.8rem 1.6rem;
+      transition: border-color 0.25s, transform 0.25s, background 0.25s;
+    }
+
+    .phil-card:hover {
+      border-color: rgba(212,169,106,0.35);
+      transform: translateY(-3px); background: var(--surface2);
+    }
+
+    .phil-icon {
+      width: 40px; height: 40px;
+      background: rgba(212,169,106,0.1); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; margin-bottom: 1rem;
+      border: 1px solid rgba(212,169,106,0.15);
+    }
+
+    .phil-card h3 {
+      font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 600;
+      color: var(--text); margin-bottom: 0.5rem; letter-spacing: -0.2px;
+    }
+
+    .phil-card p { font-size: 0.87rem; color: var(--content); line-height: 1.65; font-weight: 300; }
+
+    /* ══ QUOTE BLOCK ══ */
+    .quote-block {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 16px 16px 0;
+      padding: 1.8rem 2rem;
+      margin: 2.5rem 0;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .quote-block blockquote {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem; font-weight: 500;
+      color: var(--text); line-height: 1.55;
+      letter-spacing: -0.3px;
+    }
+
+    .quote-block cite {
+      display: block; margin-top: 0.8rem;
+      font-size: 0.78rem; color: var(--gold);
+      font-style: normal; letter-spacing: 1px; text-transform: uppercase;
+    }
+
+    /* ══ ANIMATIONS ══ */
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(14px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 768px) {
+      nav { padding: 0 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      .about-hero { height: 260px; }
+      .about-hero-content { padding: 0 1.5rem; bottom: 2rem; }
+      .about-body { padding: 3rem 1.5rem 5rem; }
+      .cards-grid { grid-template-columns: 1fr; }
+
+    }
+
+    @media (max-width: 520px) {
+      .nav-links { display: none; }
+      .about-hero { height: 220px; }
+      .about-hero h1 { font-size: 2rem; }
+      .about-body { padding: 2.5rem 1.2rem 4rem; }
+      .lead-block p { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="logo" href="home.html">
+      <div class="logo-dot"></div>
+      Stranger Wall
+      <span class="nav-badge">beta</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="home.html">Home</a></li>
+      <li><a href="wall.html">Wall</a></li>
+      <li><a href="stranger.html">Strangers</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO BANNER -->
+  <div class="about-hero">
+    <img
+      src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+      alt="People connecting"
+      loading="eager"
+    >
+    <div class="about-hero-overlay"></div>
+    <div class="about-hero-content">
+      <p class="about-eyebrow">About Us</p>
+      <h1>Where strangers<br><em>become voices.</em></h1>
     </div>
   </div>
-</section>
 
-<style>
-  /* CSS Reset with accessibility in mind */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  <!-- BODY -->
+  <div class="about-body">
 
-  /* Professional typography with system fonts */
-  .about-section {
-    --primary-green: #22c55e;
-    --primary-green-light: #4ade80;
-    --primary-green-dark: #16a34a;
-    --text-primary: #ffffff;
-    --text-secondary: #e2e8f0;
-    --text-tertiary: #94a3b8;
-    --bg-dark: #0a0f1e;
-    --bg-darker: #1a2335;
-    --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    
-    min-height: 100vh;
-    width: 100%;
-    background: linear-gradient(145deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem 1rem;
-    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-    position: relative;
-    overflow-y: auto;
-    overflow-x: hidden;
-    line-height: 1.5;
-  }
+    <!-- Lead -->
+    <div class="lead-block">
+      <p>A digital space designed for authentic expression and anonymous connection — where conversations exist beyond names.</p>
+    </div>
 
-  /* Modern aesthetics - animated background pattern */
-  .about-section::before {
-    content: '';
-    position: fixed;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at 30% 50%, rgba(34, 197, 94, 0.03) 0%, transparent 50%);
-    animation: slowShift 30s linear infinite;
-    pointer-events: none;
-    z-index: 0;
-  }
+    <!-- Intro prose -->
+    <div class="prose">
+      <p>Stranger Wall is built for people who want to speak freely. In a world where social platforms revolve around profiles, followers, and identities, Stranger Wall offers something different — a place where conversations exist beyond names and personal labels.</p>
+      <p>Here, people interact as pure voices rather than identities. Thoughts flow freely between strangers, creating meaningful interactions not influenced by status, appearance, or social pressure. Every message becomes part of a shared space where individuals can express themselves honestly.</p>
+      <p>The platform encourages users to share experiences, ideas, and emotions in a simple and open environment. Whether someone wants to talk, listen, reflect, or simply explore perspectives from around the world, Stranger Wall creates opportunities for genuine human connection.</p>
+    </div>
 
-  .container {
-    max-width: 900px;
-    width: 100%;
-    position: relative;
-    z-index: 1;
-    margin: 0 auto;
-  }
+    <div class="divider"></div>
 
-  /* Hero Image Styles */
-  .hero-image-wrapper {
-    width: 100%;
-    height: 250px;
-    border-radius: 1.5rem 1.5rem 0 0;
-    overflow: hidden;
-    position: relative;
-    margin-bottom: 0;
-  }
+    <!-- Vision -->
+    <div class="section-heading">
+      <h2>Our Vision</h2>
+    </div>
+    <div class="prose">
+      <p>Our vision is to create a global digital space where people can communicate freely without identity barriers. We want to build a platform where honesty, curiosity, and human connection take priority over profiles and social status.</p>
+      <p>Stranger Wall aims to redefine how people interact online by focusing on conversation rather than identity. By allowing people to speak openly and anonymously, we encourage deeper and more authentic exchanges between individuals across the world.</p>
+    </div>
 
-  .hero-image {
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
 
-  .hero-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease;
-  }
+    <!-- Mission -->
+    <div class="section-heading">
+      <h2>Our Mission</h2>
+    </div>
+    <div class="prose">
+      <p>Our mission is to build innovative digital environments that support anonymous interaction and authentic communication. We strive to continuously explore new technologies, improve user experiences, and develop creative solutions that make online interaction more open, simple, and meaningful.</p>
+      <p>Through Stranger Wall, we aim to create a platform where thoughts can travel freely, conversations can grow naturally, and strangers can connect in ways that feel genuine and memorable.</p>
+    </div>
 
-  .hero-image:hover .hero-img {
-    transform: scale(1.05);
-  }
+    <div class="divider"></div>
 
-  .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(to bottom, transparent 60%, var(--bg-dark) 100%);
-    pointer-events: none;
-  }
+    <!-- Why we exist -->
+    <div class="section-heading">
+      <h2>Why Stranger Wall Exists</h2>
+    </div>
+    <div class="prose">
+      <p>Modern social networks often focus heavily on identity, popularity, and digital reputation. While these platforms connect people, they can sometimes limit honest expression. Stranger Wall exists to offer a different experience — one where people are free to share their thoughts without judgment or expectations.</p>
+      <p>By removing identity from the conversation, we create a space where users can speak openly and listen without assumptions. This environment encourages curiosity, empathy, and spontaneous interaction between people who might otherwise never cross paths.</p>
+    </div>
 
-  /* Modern aesthetics - glass morphism with proper contrast */
-  .about-content {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 0 0 1.5rem 1.5rem;
-    padding: 2.5rem 2rem;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    animation: fadeInUp 1.2s var(--transition-smooth);
-  }
+    <!-- Community philosophy cards -->
+    <div class="section-heading">
+      <h2>Community Philosophy</h2>
+    </div>
+    <div class="prose">
+      <p>The Stranger Wall community is built around openness, respect, and curiosity. Even though users remain anonymous, the platform encourages meaningful conversations and positive interaction.</p>
+      <p>Every participant contributes to a constantly evolving stream of thoughts, stories, and perspectives. Each message becomes part of a shared digital wall where strangers connect through words.</p>
+      <p>This creates a unique form of global communication — spontaneous, unpredictable, and often surprisingly human.</p>
+    </div>
 
-  /* Badge styles */
-  .badge {
-    display: inline-block;
-    padding: 0.35rem 1rem;
-    background: rgba(34, 197, 94, 0.1);
-    border: 1px solid rgba(34, 197, 94, 0.2);
-    border-radius: 100px;
-    color: var(--primary-green);
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    transition: var(--transition-smooth);
-    cursor: default;
-  }
 
-  .badge:hover {
-    background: rgba(34, 197, 94, 0.15);
-    border-color: rgba(34, 197, 94, 0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
-  }
+  </div>
 
-  /* Title styles */
-  .title {
-    font-size: 3rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 2rem;
-    color: var(--text-primary);
-    letter-spacing: -0.02em;
-  }
-
-  .title-highlight {
-    background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    display: inline-block;
-  }
-
-  /* Section title styles */
-  .section-title {
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: var(--primary-green);
-    margin: 2.5rem 0 1.5rem 0;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid rgba(34, 197, 94, 0.3);
-  }
-
-  .description {
-    margin-bottom: 2rem;
-  }
-
-  .description p.lead {
-    font-size: 1.3rem;
-    font-weight: 500;
-    color: var(--text-primary);
-    opacity: 1;
-    border-left: 4px solid var(--primary-green);
-    padding-left: 1.5rem;
-    margin-bottom: 2rem;
-    line-height: 1.6;
-  }
-
-  .description p {
-    color: var(--text-secondary);
-    font-size: 1.05rem;
-    line-height: 1.8;
-    margin-bottom: 1.5rem;
-    opacity: 0.9;
-    transition: var(--transition-smooth);
-  }
-
-  .description p:hover {
-    transform: translateX(8px);
-    color: var(--text-primary);
-    opacity: 1;
-  }
-
-  /* Statistics styles */
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin: 2rem 0 0;
-    padding: 2rem 0 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .stat-item {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 1rem;
-    border-radius: 1rem;
-    transition: var(--transition-smooth);
-    cursor: default;
-  }
-
-  .stat-item:hover,
-  .stat-item:focus {
-    background: rgba(255, 255, 255, 0.03);
-    transform: translateY(-4px);
-  }
-
-  .stat-item:focus-visible {
-    outline: 2px solid var(--primary-green);
-    outline-offset: 2px;
-  }
-
-  .stat-number {
-    font-size: 2.2rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--primary-green), var(--primary-green-light));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1;
-  }
-
-  .stat-label {
-    color: var(--text-tertiary);
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-
-  /* Animations */
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(40px) scale(0.98);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
-  @keyframes slowShift {
-    0% { transform: translate(0, 0) rotate(0deg); }
-    100% { transform: translate(-10%, -10%) rotate(5deg); }
-  }
-
-  /* Responsive Design */
-  
-  /* Tablet (768px and below) */
-  @media (max-width: 768px) {
-    .about-section {
-      padding: 1.5rem 1rem;
-    }
-
-    .hero-image-wrapper {
-      height: 200px;
-    }
-
-    .about-content {
-      padding: 2rem 1.5rem;
-    }
-
-    .title {
-      font-size: 2.5rem;
-    }
-
-    .section-title {
-      font-size: 1.5rem;
-      margin: 2rem 0 1rem 0;
-    }
-
-    .description p.lead {
-      font-size: 1.2rem;
-    }
-
-    .description p {
-      font-size: 1rem;
-    }
-
-    .stats {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-
-    .description p:hover {
-      transform: translateX(4px);
-    }
-
-    .stat-item:hover {
-      transform: translateY(-2px);
-    }
-  }
-
-  /* Mobile (480px and below) */
-  @media (max-width: 480px) {
-    .about-section {
-      padding: 1rem 0.75rem;
-    }
-
-    .hero-image-wrapper {
-      height: 150px;
-      border-radius: 1rem 1rem 0 0;
-    }
-
-    .about-content {
-      padding: 1.5rem 1.25rem;
-      border-radius: 0 0 1rem 1rem;
-    }
-
-    .badge {
-      margin-bottom: 1rem;
-      font-size: 0.75rem;
-    }
-
-    .title {
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .section-title {
-      font-size: 1.3rem;
-      margin: 1.5rem 0 0.75rem 0;
-    }
-
-    .description p.lead {
-      font-size: 1.1rem;
-      padding-left: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .description p {
-      font-size: 0.95rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .stats {
-      margin: 1.5rem 0 0;
-      padding: 1.5rem 0 0;
-    }
-
-    .stat-number {
-      font-size: 1.8rem;
-    }
-
-    .stat-label {
-      font-size: 0.8rem;
-    }
-  }
-
-  /* Small Mobile (360px and below) */
-  @media (max-width: 360px) {
-    .about-section {
-      padding: 0.75rem 0.5rem;
-    }
-
-    .hero-image-wrapper {
-      height: 120px;
-    }
-
-    .about-content {
-      padding: 1.25rem 1rem;
-    }
-
-    .title {
-      font-size: 1.8rem;
-    }
-
-    .section-title {
-      font-size: 1.2rem;
-    }
-
-    .description p.lead {
-      font-size: 1rem;
-    }
-
-    .description p {
-      font-size: 0.9rem;
-    }
-  }
-
-  /* Accessibility - prefers reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    .about-section::before,
-    .about-content,
-    .badge,
-    .description p,
-    .stat-item,
-    .hero-img {
-      animation: none;
-      transition: none;
-    }
-    
-    .about-section::before {
-      display: none;
-    }
-  }
-
-  /* Accessibility - high contrast mode support */
-  @media (prefers-contrast: high) {
-    .about-section {
-      background: #000000;
-    }
-    
-    .title-highlight {
-      -webkit-text-fill-color: #22c55e;
-      background: none;
-    }
-    
-    .badge {
-      border: 2px solid #22c55e;
-      background: transparent;
-    }
-  }
-</style>
+</body>
+</html>
