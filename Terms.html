@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms · Stranger Wall</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #0c0d16;
+      --surface:   #13141f;
+      --surface2:  #1a1b2b;
+      --border:    #252638;
+      --gold:      #d4a96a;
+      --gold-soft: #e8c48e;
+      --gold-dim:  #8a6a3e;
+      --text:      #ece7da;
+      --content:   #c0bcd4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ══ NAV ══ */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(12,13,22,0.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 3rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.25rem;
+      color: var(--text); letter-spacing: -0.5px;
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
+    }
+
+    .logo-dot {
+      width: 8px; height: 8px; background: var(--gold);
+      border-radius: 50%; animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:0.4; transform:scale(0.7); }
+    }
+
+    .nav-badge {
+      font-size: 0.65rem; font-weight: 500; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--gold-dim);
+      background: rgba(212,169,106,0.1); border: 1px solid rgba(212,169,106,0.2);
+      padding: 2px 8px; border-radius: 100px;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--content); text-decoration: none; font-size: 0.9rem;
+      font-weight: 400; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--gold); }
+
+    /* ══ HERO BANNER ══ */
+    .about-hero {
+      position: relative; z-index: 1;
+      height: 320px; overflow: hidden;
+    }
+
+    .about-hero img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.35) saturate(0.6);
+      transition: transform 8s ease;
+    }
+
+    .about-hero:hover img { transform: scale(1.04); }
+
+    .about-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(12,13,22,0.2) 0%, rgba(12,13,22,0.95) 100%);
+    }
+
+    .about-hero-content {
+      position: absolute; bottom: 3rem; left: 0;
+      width: 100%; padding: 0 3rem;
+      animation: fadeUp 0.7s ease 0.1s both;
+    }
+
+    .about-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.75rem; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--gold); font-weight: 500; margin-bottom: 0.8rem;
+    }
+
+    .about-eyebrow::before {
+      content: ''; display: block; width: 20px; height: 1px; background: var(--gold);
+    }
+
+    .about-hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 800; letter-spacing: -1.5px; line-height: 1.05;
+      color: var(--text);
+    }
+
+    .about-hero h1 em { font-style: normal; color: var(--gold); }
+
+    /* ══ MAIN CONTENT ══ */
+    .about-body {
+      position: relative; z-index: 1;
+      max-width: 860px; margin: 0 auto;
+      padding: 4rem 3rem 6rem;
+    }
+
+    /* ══ SCROLL ANIMATIONS ══ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.from-left  { transform: translateX(-30px); }
+    .reveal.from-right { transform: translateX(30px); }
+    .reveal.scale-in   { transform: scale(0.96) translateY(16px); }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0) translateX(0) scale(1);
+    }
+
+    .reveal-group .reveal-child {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .reveal-group.visible .reveal-child:nth-child(1) { opacity:1; transform:none; transition-delay: 0s; }
+    .reveal-group.visible .reveal-child:nth-child(2) { opacity:1; transform:none; transition-delay: 0.1s; }
+    .reveal-group.visible .reveal-child:nth-child(3) { opacity:1; transform:none; transition-delay: 0.2s; }
+    .reveal-group.visible .reveal-child:nth-child(4) { opacity:1; transform:none; transition-delay: 0.3s; }
+
+    /* lead paragraph */
+    .lead-block {
+      border-left: 3px solid var(--gold);
+      padding-left: 1.5rem;
+      margin-bottom: 3rem;
+      animation: fadeUp 0.6s ease 0.3s both, leadGlow 3s ease-in-out 1s infinite;
+    }
+
+    @keyframes leadGlow {
+      0%,100% { border-left-color: var(--gold); box-shadow: -3px 0 0 0 rgba(212,169,106,0); }
+      50%      { border-left-color: var(--gold-soft); box-shadow: -3px 0 12px 2px rgba(212,169,106,0.25); }
+    }
+
+    .lead-block p {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem; font-weight: 500; line-height: 1.65;
+      color: var(--text); letter-spacing: -0.2px;
+    }
+
+    /* prose */
+    .prose {
+      display: flex; flex-direction: column; gap: 1.4rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .prose p {
+      font-size: 1rem; color: var(--content);
+      line-height: 1.85; font-weight: 300;
+    }
+
+    .prose p strong { color: var(--gold-soft); font-weight: 500; }
+
+    .prose ul {
+      margin: 0.4rem 0 0.4rem 1.6rem;
+      color: var(--content); font-weight: 300;
+    }
+
+    .prose ul li {
+      font-size: 1rem; line-height: 1.8; margin-bottom: 0.4rem;
+    }
+
+    .prose ul li strong { color: var(--gold-soft); font-weight: 500; }
+
+    /* section heading */
+    .section-heading {
+      display: flex; align-items: center; gap: 14px;
+      margin: 3.5rem 0 1.6rem;
+    }
+
+    .section-heading::before {
+      content: ''; display: block;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gold); flex-shrink: 0;
+    }
+
+    .section-heading h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      letter-spacing: -0.5px; color: var(--text);
+    }
+
+    .section-heading::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* divider */
+    .divider { height: 1px; background: var(--border); margin: 3rem 0; }
+
+    /* legal note */
+    .legal-note {
+      border-left: 3px solid var(--gold-dim);
+      padding-left: 1.5rem;
+      margin: 2rem 0 3.5rem;
+    }
+
+    .legal-note p {
+      font-size: 0.95rem; color: var(--content);
+      line-height: 1.8; font-weight: 300;
+    }
+
+    .legal-note p i { color: var(--gold); font-style: normal; }
+
+    /* footnote */
+    .footnote {
+      margin-top: 4rem; padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold-dim); font-weight: 500; opacity: 0.6;
+    }
+
+    /* ══ BASE ANIMATIONS ══ */
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(14px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 768px) {
+      nav { padding: 0 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      .about-hero { height: 260px; }
+      .about-hero-content { padding: 0 1.5rem; bottom: 2rem; }
+      .about-body { padding: 3rem 1.5rem 5rem; }
+    }
+
+    @media (max-width: 520px) {
+      .nav-links { display: none; }
+      .about-hero { height: 220px; }
+      .about-hero h1 { font-size: 2rem; }
+      .about-body { padding: 2.5rem 1.2rem 4rem; }
+      .lead-block p { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="logo" href="home.html">
+      <div class="logo-dot"></div>
+      Stranger Wall
+      <span class="nav-badge">beta</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="wall.html">Wall</a></li>
+      <li><a href="stranger.html">Strangers</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO BANNER -->
+  <div class="about-hero">
+    <img
+      src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+      alt="Terms and conditions"
+      loading="eager"
+    >
+    <div class="about-hero-overlay"></div>
+    <div class="about-hero-content">
+      <h1>Terms &amp; <em>Conditions</em></h1>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="about-body">
+
+    <!-- Lead -->
+    <div class="lead-block reveal scale-in">
+      <p>By using Stranger Wall you agree to these terms — a simple set of rules that keep the wall honest, open, and safe for everyone.</p>
+    </div>
+
+    <!-- Last updated note -->
+    <div class="prose reveal-group reveal">
+      <p class="reveal-child">Last revised · <strong>12 March 2026</strong>. Continued use of the platform after changes constitutes acceptance of the revised version.</p>
+    </div>
+
+    <div class="divider reveal"></div>
+
+    <!-- 1. Acceptance -->
+    <div class="section-heading reveal from-left">
+      <h2>Acceptance of Terms</h2>
+    </div>
+    <div class="prose reveal-group reveal">
+      <p class="reveal-child"><strong>By accessing or using Stranger Wall, you agree to be bound by these Terms and all applicable laws.</strong> If you do not agree with any part, you must not use the platform. Stranger Wall is a space for anonymous expression, but that does not exempt you from respecting these basic rules.</p>
+    </div>
+
+    <!-- 2. Anonymity -->
+    <div class="section-heading reveal from-left">
+      <h2>Anonymity and Accounts</h2>
+    </div>
+    <div class="prose reveal-group reveal">
+      <p class="reveal-child">Stranger Wall does not require registration, logins, or profiles. You participate as a completely anonymous user. <strong>We do not link messages to any identity.</strong> Because there is no account system, you are responsible for remembering which messages you posted — we cannot verify ownership beyond matching the exact content.</p>
+      <p class="reveal-child">You acknowledge that anonymity is core to the experience, and you will not attempt to impersonate others or hide behind anonymity to cause harm.</p>
+    </div>
+
+    <!-- 3. Content -->
+    <div class="section-heading reveal from-left">
+      <h2>Content Standards</h2>
+    </div>
+    <div class="prose reveal-group reveal">
+      <p class="reveal-child">All messages you post must comply with the following rules. You alone are responsible for the content of your messages. Prohibited content includes:</p>
+      <ul class="reveal-child">
+        <li><strong>Illegal material:</strong> any message that violates local or international law — including hate speech, threats, harassment, or defamation.</li>
+        <li><strong>Personal information:</strong> do not share your own or anyone else's private data (addresses, phone numbers, real names, financial details).</li>
+        <li><strong>Harmful content:</strong> messages that promote violence, self-harm, or target vulnerable groups.</li>
+        <li><strong>Spam or commercial solicitation:</strong> the wall is for human connection, not advertising or bots.</li>
+      </ul>
+      <p class="reveal-child">We reserve the right to remove any message without notice if it violates these standards. Repeated violations may lead to IP-level temporary blocks — the only time we consider IP data, solely for abuse prevention.</p>
+    </div>
+
+    <div class="divider reveal"></div>
+
+    <!-- 4. Moderation -->
+    <div class="section-heading reveal from-left">
+      <h2>Moderation and Removal</h2>
+    </div>
+    <div class="prose reveal-group reveal">
+      <p class="reveal-child">Stranger Wall is moderated manually and through automated filters. We aim to maintain a respectful environment, but we do not pre-screen messages. If you encounter a message you believe violates these Terms, you may report it by contacting us with the exact text.</p>
+      <p class="reveal-child"><strong>We are not obligated to keep any content for any period;</strong> messages naturally scroll off the wall and are permanently deleted.</p>
+    </div>
+
+    <!-- 5. Intellectual property -->
+    <div class="section-heading reveal from-left">
+      <h2>Intellectual Property</h2>
+    </div>
+    <div class="prose reveal-group reveal">
+      <p class="reveal-child"><strong>You retain full ownership of the messages you post.</strong> By submitting content to Stranger Wall, you grant us a non-exclusive, worldwide, royalty-free license to display, store, and distribute it solely for the purpose of operating the service. This license ends when the message is removed from the wall.</p>
+      <p class="reveal-child">The Stranger Wall name, logo, and design are our intellectual property. You may not use them without explicit permission.</p>
+    </div>
+
+    <div class="divider reveal"></div>
+
+    <!-- 6. Disclaimers -->
+    <div class="section-heading reveal from-left">
+      <h2>Disclaimer of Warranties</h2>
+    </div>
+    <div class="prose reveal-group reveal">
+      <p class="reveal-child"><strong>Stranger Wall is provided "as is" and "as available" without any warranties, express or implied.</strong> We do not guarantee that the service will be uninterrupted, secure, or error-free. We are not responsible for the content, accuracy, or opinions expressed by users. Any reliance on material on the wall is at your own risk.</p>
+    </div>
+
+    <!-- 7. Liability -->
+    <div class="section-heading reveal from-left">
+      <h2>Limitation of Liability</h2>
+    </div>
+    <div class="prose reveal-group reveal">
+      <p class="reveal-child">To the fullest extent permitted by law, in no event shall Stranger Wall or its operators be liable for any indirect, incidental, special, consequential, or punitive damages arising out of your use of the service. This includes loss of data (messages are temporary by design), emotional distress, or any third-party claims.</p>
+    </div>
+
+    <!-- 8. Indemnification -->
+    <div class="section-heading reveal from-left">
+      <h2>Indemnification</h2>
+    </div>
+    <div class="prose reveal-group reveal">
+      <p class="reveal-child">You agree to indemnify and hold harmless Stranger Wall and its operators from any claims, damages, liabilities, and expenses (including reasonable legal fees) arising out of your violation of these Terms, your messages, or any applicable laws.</p>
+    </div>
+
+    <div class="divider reveal"></div>
+
+    <!-- 9. Governing law -->
+    <div class="section-heading reveal from-left">
+      <h2>Governing Law and Disputes</h2>
+    </div>
+    <div class="prose reveal-group reveal">
+      <p class="reveal-child">These Terms shall be governed by the laws of The Netherlands, without regard to its conflict of law provisions. Any dispute arising from these Terms or your use of Stranger Wall shall be resolved through good-faith negotiations. If that fails, you agree to submit to the exclusive jurisdiction of the courts of Amsterdam.</p>
+    </div>
+
+    <!-- 10. Changes -->
+    <div class="section-heading reveal from-left">
+      <h2>Changes to Terms</h2>
+    </div>
+    <div class="prose reveal-group reveal">
+      <p class="reveal-child">We may update these Terms from time to time. The current version will always be posted on this page with the "last revised" date. If changes are material, we may notify you via a notice on the wall. Your continued use after changes means you accept the new Terms.</p>
+    </div>
+
+    <!-- 11. Contact -->
+    <div class="section-heading reveal from-left">
+      <h2>Contact</h2>
+    </div>
+    <div class="prose reveal-group reveal">
+      <p class="reveal-child">For any questions about these Terms, or to report a violation, you can reach us at <span style="color: var(--gold);">terms@strangerwall.xyz</span>. We aim to respond within a few days. Because of the anonymous nature of the platform, we may ask for the exact message content to address your request.</p>
+    </div>
+
+    <!-- Closing note -->
+    <div class="legal-note reveal scale-in">
+      <p><i>⌲</i> By posting on Stranger Wall, you acknowledge that you have read, understood, and agreed to these Terms. The wall is a living space — treat it with the same respect you would a conversation with a stranger in an unfamiliar city.</p>
+    </div>
+
+    <div class="footnote reveal">
+      Stranger Wall/teams
+    </div>
+
+  </div>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
